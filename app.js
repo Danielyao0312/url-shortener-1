@@ -13,7 +13,7 @@ const bodyParser = require('koa-bodyparser');
 
 
 mongoose.Promise = Promise;
-mongoose.connect('mongodb://localhost/url');
+mongoose.connect(process.env.MONGOLAB_URI ? process.env.MONGOLAB_URI : 'mongodb://localhost/url');
 app.use(bodyParser());
 
 
