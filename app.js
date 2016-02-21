@@ -13,7 +13,7 @@ const bodyParser = require('koa-bodyparser');
 
 
 mongoose.Promise = Promise;
-mongoose.connect(process.env.MONGOLAB_URI ? process.env.MONGOLAB_URI : 'mongodb://localhost/url');
+mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/url');
 app.use(bodyParser());
 
 
@@ -74,6 +74,6 @@ app.use(route.post('/api/shorten', shorten.encode));
 app.use(compress());
 
 if (!module.parent) {
-    app.listen(3000);
+    app.listen(process.env.PORT | 3000);
     console.log('listening on port 3000');
 }
