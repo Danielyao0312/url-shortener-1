@@ -6,6 +6,28 @@ url字段设定为唯一，并且伴随一个自增长 id ；然后将 id 转换
 核心部分为双射函数，将客户端请求的 62 进制数转换为 id 去查询数据库，将原始 url 作为 redirect 参数返回客户端；浏览器 301 自动跳转到原网址。
 需要实现 Mongodb 的自增长字段，创建一个名为 counter 的只用来计数的 Schema ，每次取值都去更新一下这个字段的值，使其自增 1 。
 
+## API
+
+### encode
+```
+POST /api/shorten
+long_url=http://...
+```
+
+OR
+```
+{ 
+  "long_url": "http://..."
+}
+```
+
+### decode
+```
+GET /{:short_url}
+
+Location: {:目标网址}
+```
+
 ## 启动
 > npm start
 
