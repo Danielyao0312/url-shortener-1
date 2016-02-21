@@ -20,6 +20,11 @@ module.exports.decode = function *decode () {
     const str = this.req.url.substr(1);
     const seq = bijective.decode(str);
     var url = yield this.short.findOne({ seq }, "long");
-    this.status = 301;
-    this.redirect(url.long);
+    if (url) {
+        this.status = 301;
+        this.redirect(url.long);
+    } else {
+        this.status = 404;
+        this.body = "Not Found";
+    }
 }
