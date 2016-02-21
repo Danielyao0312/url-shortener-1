@@ -7,8 +7,6 @@
     "test": "mocha --harmony"
   },
   "dependencies": {
-    "co-body": "^0.0.1",
-    "co-views": "^0.2.0",
     "koa": "^0.6.0",
     "koa-bodyparser": "^2.0.1",
     "koa-compress": "^1.0.6",

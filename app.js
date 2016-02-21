@@ -10,7 +10,7 @@ const path = require('path');
 const app = module.exports = koa();
 const mongoose = require('mongoose');
 const bodyParser = require('koa-bodyparser');
-const port = process.env.PORT | 3000;
+const port = process.env.PORT || 3000;
 
 mongoose.Promise = Promise;
 mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/url');
@@ -57,7 +57,6 @@ app.use(function* (next) {
 // Logger
 app.use(logger());
 
-// TODO 待删除
 app.use(route.get('/', messages.home));
 
 // Serve static files
