@@ -49,7 +49,7 @@ UrlSchema.pre('save', function (next) {
 app.use(function* (next) {
     this.mongoose = mongoose;
     this.short = short;
-    this.domain = process.env.domain || `http://localhost:${port}/`;
+    this.domain = process.env.DOMAIN || `http://localhost:${port}/`;
     
     yield next;
 })
