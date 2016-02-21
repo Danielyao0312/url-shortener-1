@@ -16,7 +16,7 @@ mongoose.Promise = Promise;
 mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/url');
 app.use(bodyParser());
 
-
+// Mongodb Schema
 const UrlSchema = new mongoose.Schema({
     long: { type: String, unique: true, required: true },
     seq: { type: Number, default: 0 }
@@ -46,12 +46,12 @@ UrlSchema.pre('save', function (next) {
         }).catch(next)
 });
 
+// 为会话附加数据库连接
 app.use(function* (next) {
     this.mongoose = mongoose;
     this.short = short;
     this.domain = process.env.DOMAIN || `http://localhost:${port}/`;
     
-    console.log(process.env.DOMAIN)
     yield next;
 })
 
