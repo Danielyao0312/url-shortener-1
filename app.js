@@ -75,6 +75,7 @@ app.use(compress());
 
 if (!module.parent) {
     const port = process.env.PORT | 3000;
-    app.listen(port);
+    app.listen(port, '0.0.0.0');
+    console.log(process.env);
     console.log(`listening on port ${port}`);
 }
