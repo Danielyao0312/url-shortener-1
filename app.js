@@ -51,6 +51,7 @@ app.use(function* (next) {
     this.short = short;
     this.domain = process.env.DOMAIN || `http://localhost:${port}/`;
     
+    console.log(process.env.DOMAIN)
     yield next;
 })
 
