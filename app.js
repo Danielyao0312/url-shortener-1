@@ -56,6 +56,7 @@ app.use(function* (next) {
 // Logger
 app.use(logger());
 
+// TODO 待删除
 app.use(route.get('/', messages.home));
 app.use(route.get('/messages', messages.list));
 app.use(route.get('/messages/:id', messages.fetch));

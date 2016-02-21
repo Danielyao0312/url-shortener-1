@@ -22,6 +22,4 @@ module.exports.decode = function *decode () {
     var url = yield this.short.findOne({ seq }, "long");
     this.status = 301;
     this.redirect(url.long);
-    
-    //TODO redirect or 404
 }

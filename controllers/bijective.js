@@ -12,7 +12,7 @@ module.exports.encode = function encode (num) {
     while (num > 0)
     {  
         s = Alphabet[num % Base] + s;
-        num = num / Base;
+        num = Math.floor(num / Base);
     }
 
     return s
