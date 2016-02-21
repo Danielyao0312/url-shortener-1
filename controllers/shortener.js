@@ -12,7 +12,7 @@ module.exports.encode = function *encode () {
         url = yield this.short.create({ long: long_url })
     }
     
-    this.body = `${this.request.origin}\\${bijective.encode(url.seq)}`;
+    this.body = `${this.domain}${bijective.encode(url.seq)}`;
     
 }
 

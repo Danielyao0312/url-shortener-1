@@ -10,7 +10,7 @@ const path = require('path');
 const app = module.exports = koa();
 const mongoose = require('mongoose');
 const bodyParser = require('koa-bodyparser');
-
+const port = process.env.PORT | 3000;
 
 mongoose.Promise = Promise;
 mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/url');
@@ -49,6 +49,7 @@ UrlSchema.pre('save', function (next) {
 app.use(function* (next) {
     this.mongoose = mongoose;
     this.short = short;
+    this.domain = process.env.domain || `http://localhost:${port}/`;
     
     yield next;
 })
@@ -58,11 +59,6 @@ app.use(logger());
 
 // TODO 待删除
 app.use(route.get('/', messages.home));
-app.use(route.get('/messages', messages.list));
-app.use(route.get('/messages/:id', messages.fetch));
-app.use(route.post('/messages', messages.create));
-app.use(route.get('/async', messages.delay));
-
 
 // Serve static files
 app.use(serve(path.join(__dirname, 'public')));
@@ -74,9 +70,6 @@ app.use(route.post('/api/shorten', shorten.encode));
 app.use(compress());
 
 if (!module.parent) {
-    const port = process.env.PORT | 3000;
-    app.listen(port, '0.0.0.0', function (err) {
-        console.error(err)
-    });
+    app.listen(port, '0.0.0.0');
     console.log(`listening on port ${port}`);
 }
