@@ -17,32 +17,39 @@ mongoose.connect('mongodb://localhost/url');
 app.use(bodyParser());
 
 
+const UrlSchema = new mongoose.Schema({
+    long: { type: String, unique: true, required: true },
+    seq: { type: Number, default: 0 }
+});
+const short = mongoose.model('shorten', UrlSchema);
 
-app.use(function * (next) {
-    this.mongoose = mongoose;
-    
-    const schema = new mongoose.Schema({ 
-        long_url: 'string', 
-        short_url: 'string',
-        seq: { type: 'number', default: 0 }
-    });
-    const shorts = this.shorts = this.mongoose.model('shorten', schema);
-    
-    
-    const entitySchema = mongoose.Schema({
-        testvalue: {type: 'string'}
-    });
+const CounterSchema = new mongoose.Schema({
+    _id: { type: String, required: true },
+    seq: { type: Number, default: 0 }
+});
+CounterSchema.on('init', function (model) {
+    model.findOne({ _id: 'urlId' })
+        .then(function (entity) {
+            if (!entity) 
+                model.create({ _id: 'urlId' });
+        })
+})
+const counter = mongoose.model('counter', CounterSchema);
 
-    entitySchema.pre('save', function (next) {
-        const doc = this;
-        shorts.findByIdAndUpdate({_id: 'entityId'}, {$inc: { seq: 1} }, function (error, counter)   {
-            if(error)
-                return next(error);
-            doc.testvalue = shorts.seq;
+
+UrlSchema.pre('save', function (next) {
+    const doc = this;
+    counter.findByIdAndUpdate({ _id: 'urlId' }, { $inc: { seq: 1 } })
+        .then(function (counterObj) {
+            doc.seq = counterObj.seq;
             next();
-        });
-    });
+        }).catch(next)
+});
 
+app.use(function* (next) {
+    this.mongoose = mongoose;
+    this.short = short;
+    
     yield next;
 })
 
@@ -66,6 +73,6 @@ app.use(route.post('/api/shorten', shorten.encode));
 app.use(compress());
 
 if (!module.parent) {
-  app.listen(3000);
-  console.log('listening on port 3000');
+    app.listen(3000);
+    console.log('listening on port 3000');
 }
