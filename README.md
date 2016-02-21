@@ -7,8 +7,10 @@
 ## 环境变量配置
 ### 端口
 > PORT=3000 npm start
+
 ### mongodb uri
 > MONGOLAB_URI=mongodb://username:password@xxx.mongolab.com:0000/xxx
+
 ### domain
 > DOMAIN=http://sho.rt/
 
